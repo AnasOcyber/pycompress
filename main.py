@@ -1,5 +1,6 @@
 import heapq
 from collections import defaultdict
+from pathlib import Path
 
 
 class Node:
@@ -62,12 +63,18 @@ def huffman_decode(encoded_data, root):
     return decoded_data
 
 
-data = "abracadabra"
-root = build_huffman_tree(data)
-encoding_map = huffman_encode(data, root)
-encoded_data = "".join(encoding_map[char] for char in data)
-decoded_data = huffman_decode(encoded_data, root)
+file_path = input("Path to uncompressed file: ")
+path = Path(file_path)
 
-print(f"Original data: {data}")
-print(f"Encoded data: {encoded_data}")
-print(f"Decoded data: {decoded_data}")
+if path.exists():
+    data = path.read_text()
+    root = build_huffman_tree(data)
+    encoding_map = huffman_encode(data, root)
+    encoded_data = "".join(encoding_map[char] for char in data)
+    decoded_data = huffman_decode(encoded_data, root)
+
+    print(f"Original data: {data}")
+    print(f"Encoded data: {encoded_data}")
+    print(f"Decoded data: {decoded_data}")
+else:
+    print("We can't find this file.")
